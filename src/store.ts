@@ -4,7 +4,12 @@ import * as url from 'node:url'
 import { Configuration, OpenAIApi } from "openai";
 import { splitText, trim } from './text.js';
 
-export async function findDocs(query: string, k=10) {
+type Doc = {
+    name: string;
+    body: string;
+}
+
+export async function findDocs(query: string, k=10): Promise<{ doc: Doc, distance: number }[]> {
     const {
         default: { HierarchicalNSW },
     } = await import("hnswlib-node");
